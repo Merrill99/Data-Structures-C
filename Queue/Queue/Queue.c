@@ -7,6 +7,7 @@ void QueueInit(Queue* pq)
 	assert(pq);
 
 	pq->front = pq->rear = NULL;
+	pq->size = 0;
 }
 
 void QueuePush(Queue* pq, QDataType x)
@@ -21,19 +22,22 @@ void QueuePush(Queue* pq, QDataType x)
 		perror("malloc fail");
 		return;
 	}
+	newnode->data = x;
+	newnode->next = NULL;
+
 	if (pq->front == NULL)
 	{
+		assert(pq->rear == NULL);
+
 		pq->front = pq->rear = newnode;
-		newnode->next = NULL;
 	}
 	else
 	{
 		pq->rear->next = newnode;
 		pq->rear = pq->rear->next;
-		newnode->next = NULL;
 	}
-	//入队
-	pq->rear->data = x;
+	
+	pq->size++;
 }
 
 void QueuePop(Queue* pq)
@@ -41,9 +45,20 @@ void QueuePop(Queue* pq)
 	assert(pq);
 	assert(!IsEmpty(pq));
 
-	QNode* next = pq->front->next;
-	free(pq->front);
-	pq->front = next;
+	//1、仅有一个节点时
+	if (pq->front->next == NULL)
+	{
+		free(pq->front);
+		pq->front = pq->rear = NULL;
+	}
+	//2、有多个节点时
+	else
+	{
+		//1、仅有一个节点使用此方法时，会使pq->rear变成野指针
+		QNode* next = pq->front->next;
+		free(pq->front);
+		pq->front = next;
+	}
 }
 
 QDataType QueueFront(Queue* pq)
@@ -64,30 +79,27 @@ int QueueSize(Queue* pq)
 {
 	assert(pq);
 
-	int size = 0;
-	while (pq->front != pq->rear)
-	{
-		pq->front = pq->front->next;
-		++size;
-	}
-	return size;
+	return pq->size;
 }
 
 bool IsEmpty(Queue* pq)
 {
 	assert(pq);
 
-	return pq->front == NULL;
+	return pq->front == NULL && pq->rear == NULL;
+	//return pq->size == 0;
 }
 
 void QueueDestroy(Queue* pq)
 {
 	assert(pq);
 
-	while (!IsEmpty(pq))
+	QNode* cur = pq->front;
+	while (cur)
 	{
-		QNode* next = pq->front->next;
-		free(pq->front);
-		pq->front = next;
+		QNode* next = cur->next;
+		free(cur);
+		cur = next;
 	}
+	pq->size = 0;
 }

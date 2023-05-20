@@ -16,6 +16,7 @@ typedef struct Queue
 {
 	QNode* front;
 	QNode* rear;
+	int size;//记录数据个数
 }Queue;
 
 //初始化队列 
