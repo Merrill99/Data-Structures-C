@@ -52,6 +52,8 @@ void STPop(Stack* pst)
 STDataType STTop(Stack* pst)
 {
 	assert(pst);
+	//еп©у
+	assert(!IsEmpty(pst));
 
 	return pst->arr[pst->top - 1];
 }
