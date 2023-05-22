@@ -59,6 +59,7 @@ void QueuePop(Queue* pq)
 		free(pq->front);
 		pq->front = next;
 	}
+	pq->size--;
 }
 
 QDataType QueueFront(Queue* pq)
