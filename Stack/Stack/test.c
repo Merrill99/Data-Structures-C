@@ -13,6 +13,8 @@ void StackTest1()
 	STPush(&st, 4);
 	STPush(&st, 5);
 	STPush(&st, 6);
+	STPush(&st, 7);
+	STPush(&st, 8);
 	printf("size:%d\n", STSize(&st));
 
 	while (!IsEmpty(&st))
