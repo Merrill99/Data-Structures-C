@@ -28,6 +28,12 @@ void HeapTest()
 	printf("\n");
 	HeapPop(&hp);
 
+	for (int i = 0; i < hp.size; ++i)
+	{
+		printf("%d ", hp.arr[i]);
+	}
+	printf("\n");
+
 	int size = HeapSize(&hp);
 
 	HeapDeastory(&hp);
