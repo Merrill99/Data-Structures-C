@@ -7,21 +7,15 @@ void StackTest1(char* s)
 	Stack st;
 	STIniti(&st);
 
-	while (*s)
-	{
-		//遇见左括号入栈
-		if (*s == '(' || *s == '[' || *s == '{')
-		{
-			STPush(&st, *s);
-			++s;
-		}
-	}
-	printf("size:%d\n", STSize(&st));
+    STPush(&st, 1);
+    STPush(&st, 2);
+    STPush(&st, 3);
+    STPush(&st, 4);
 
 	while (!IsEmpty(&st))
 	{
 		//打印栈顶元素
-		printf("%c ", STTop(&st));
+		printf("%d ", STTop(&st));
 		//出栈
 		STPop(&st);
 	}
@@ -67,7 +61,7 @@ bool isValid(char* s) {
 int main()
 {
 	char s[] = "()";
-	//StackTest1(s);
-    isValid(s);
+	StackTest1(s);
+    //isValid(s);
 	return 0;
 }
