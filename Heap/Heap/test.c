@@ -8,8 +8,8 @@ void HeapTest()
 	HeapIniti(&hp);
 
 	HeapPush(&hp, 10);
-	HeapPush(&hp, 15);
 	HeapPush(&hp, 56);
+	HeapPush(&hp, 15);
 	HeapPush(&hp, 25);
 	HeapPush(&hp, 30);
 	HeapPush(&hp, 70);
@@ -26,6 +26,7 @@ void HeapTest()
 		printf("%d ", hp.arr[i]);
 	}
 	printf("\n");
+	HeapPop(&hp);
 	HeapPop(&hp);
 
 	for (int i = 0; i < hp.size; ++i)

@@ -95,18 +95,46 @@ void HeapPop(Heap* php)
 	
 }
 
+// 当右孩子不存在时，没法判断
+//void AdjustDown(HPDataType* a, int n, int parent)
+//{
+//	//判断左右孩子大大小，选出较小/大的那个
+//	int child = a[parent * 2 + 1] < a[parent * 2 + 2] ? (parent * 2 + 1) : (parent * 2 + 2);
+//
+//	//孩子节点是叶节点时结束
+//	while (child < n)
+//	{
+//		HeapSwap(&a[child], &a[parent]);
+//
+//		parent = child;
+//		child = a[parent * 2 + 1] < a[parent * 2 + 2] ? (parent * 2 + 1) : (parent * 2 + 2);
+//	}
+//}
+
 void AdjustDown(HPDataType* a, int n, int parent)
 {
-	//判断左右孩子大大小，选出较小/大的那个
-	int child = a[parent * 2 + 1] < a[parent * 2 + 2] ? (parent * 2 + 1) : (parent * 2 + 2);
-
-	//孩子节点是叶节点时结束
+	// 假设法
+	// 假设左孩子是较小(大)的那个
+	int child = parent * 2 + 1;
 	while (child < n)
 	{
-		HeapSwap(&a[child], &a[parent]);
-
-		parent = child;
-		child = a[parent * 2 + 1] > a[parent * 2 + 2] ? (parent * 2 + 1) : (parent * 2 + 2);
+		// 右孩子存在且右孩子小(大)于左孩子，则变更child的下标
+		if (child + 1 < n && a[child + 1] < a[child])
+		{
+			++child;
+		}
+		// 孩子与父亲比较
+		if (a[child] < a[parent])
+		{
+			HeapSwap(&a[child], &a[parent]);
+			parent = child;
+			child = parent * 2 + 1;
+		}
+		//其余位置已经是堆，不符合直接跳出
+		else
+		{
+			break;
+		}
 	}
 }
 
