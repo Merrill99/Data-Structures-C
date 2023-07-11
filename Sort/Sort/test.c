@@ -20,6 +20,26 @@ void TestSort()
 	
 }
 
+void BubbleSortTest()
+{
+	int a[] = { 6,1,2,7,9,3,4,5,10,8 };
+
+	PrintArray(a, sizeof(a) / sizeof(int));
+	BubbleSort(a, sizeof(a) / sizeof(int));
+	PrintArray(a, sizeof(a) / sizeof(int));
+
+}
+
+void HeapSortTest()
+{
+	int a[] = { 6,1,2,7,9,3,4,5,10,8 };
+
+	PrintArray(a, sizeof(a) / sizeof(int));
+	HeapSort(a, sizeof(a) / sizeof(int));
+	PrintArray(a, sizeof(a) / sizeof(int));
+
+}
+
 void TestOP()
 {
 	srand(time(0));
@@ -53,24 +73,22 @@ void TestOP()
 	SelectSort(a3, N);
 	int end3 = clock();
 
-	/*int begin4 = clock();
+	int begin4 = clock();
 	HeapSort(a4, N);
 	int end4 = clock();
 
 	int begin5 = clock();
-	QuickSort(a5, 0, N - 1);
+	BubbleSort(a5, N);
 	int end5 = clock();
 
-	int begin6 = clock();
-	MergeSort(a6, N);
-	int end6 = clock();*/
+	
 
 	printf("InsertSort:%d\n", end1 - begin1);
 	printf("ShellSort:%d\n", end2 - begin2);
 	printf("SelectSort:%d\n", end3 - begin3);
-	//printf("HeapSort:%d\n", end4 - begin4);
-	//printf("QuickSort:%d\n", end5 - begin5);
-	//printf("MergeSort:%d\n", end6 - begin6);
+	printf("HeapSort:%d\n", end4 - begin4);
+	printf("BubbleSort:%d\n", end5 - begin5);
+
 
 	free(a1);
 	free(a2);
@@ -82,8 +100,10 @@ void TestOP()
 
 int main()
 {
-	TestSort();
-	TestOP();
+	//TestSort();
+	//BubbleSortTest();
+	//HeapSortTest();
+	//TestOP();
 
 	return 0;
 }

@@ -122,6 +122,7 @@ void SelectSort(int* a, int n)
 			}
 		}
 		Swap(&a[maxi], &a[end]);
+		// 如果mini和end重叠，进行修正
 		if (mini == end)
 		{
 			mini = maxi;
@@ -129,5 +130,62 @@ void SelectSort(int* a, int n)
 		Swap(&a[mini], &a[begin]);
 		++begin;
 		--end;
+	}
+}
+
+void BubbleSort(int* a, int n)
+{
+	int flag = 1;
+	for (int i = 0; i < n - 1; ++i)
+	{
+		// 一趟冒泡
+		for (int j = 0; j < n - 1 - i; ++j)
+		{
+			if (a[j] > a[j + 1])
+			{
+				Swap(&a[j], &a[j + 1]);
+				flag = 0;
+			}
+		}
+		// 如果冒一趟未发生交换，则证明有序，跳出循环
+		if (1 == flag)
+			break;
+	}
+}
+
+void AdjustDown(int* a, int n, int parent)
+{
+
+	int child = parent * 2 + 1;
+	while (child < n)
+	{
+		// （建大堆）如果右孩子大于左孩子，更新child
+		// 并且右孩子存在
+		if (child + 1 < n && a[child + 1] > a[child])
+		{
+			++child;
+		}
+		if (a[child] > a[parent])
+		{
+			Swap(&a[parent], &a[child]);
+		}
+		parent = child;
+		child = parent * 2 + 1;
+	}
+	
+}
+
+void HeapSort(int* a, int n)
+{
+	// 从最后一个叶子节点的双亲节点开始向下调整建堆
+	for (int i = (n - 1 - 1) / 2; i >= 0; --i)
+	{
+		AdjustDown(a, n, i);
+	}
+	// 排序
+	for (int i = n - 1; i >= 0; --i)
+	{
+		Swap(&a[0], &a[i]);
+		AdjustDown(a, i, 0);
 	}
 }
