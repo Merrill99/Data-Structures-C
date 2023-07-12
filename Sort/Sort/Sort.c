@@ -168,9 +168,13 @@ void AdjustDown(int* a, int n, int parent)
 		if (a[child] > a[parent])
 		{
 			Swap(&a[parent], &a[child]);
+			parent = child;
+			child = parent * 2 + 1;
 		}
-		parent = child;
-		child = parent * 2 + 1;
+		else
+		{
+			break;
+		}
 	}
 	
 }
@@ -183,9 +187,90 @@ void HeapSort(int* a, int n)
 		AdjustDown(a, n, i);
 	}
 	// 排序
-	for (int i = n - 1; i >= 0; --i)
+	for (int i = n - 1; i > 0; --i)
 	{
 		Swap(&a[0], &a[i]);
 		AdjustDown(a, i, 0);
 	}
+}
+
+int PartSort1(int* a, int left, int right)
+{
+	// key的位置为左边起始位置
+	int keyi = left;
+	while (left < right)
+	{
+		// 右边先走，找小，遇小停止
+		while (left < right && a[right] >= a[keyi])
+		{
+			--right;
+		}
+		// 左边找大，遇大停止
+		while (left < right && a[left] <= a[keyi])
+		{
+			++left;
+		}
+		Swap(&a[left], &a[right]);
+	}
+	Swap(&a[left], &a[keyi]);
+	return left;
+}
+
+int PartSort2(int* a, int left, int right)
+{
+	int key = a[left];
+	int hole = left;
+	while (left < right)
+	{
+		// 右边找小
+		while (left < right && a[right] > key)
+		{
+			--right;
+		}
+		// 找到放入坑位中
+		a[hole] = a[right];
+		// 坑位更新
+		hole = right;
+		// 左边找大
+		while (left < right && a[left] < key)
+		{
+			++left;
+		}
+		// 找到放入坑位中
+		a[hole] = a[left];
+		// 坑位更新
+		hole = left;
+	}
+	a[hole] = key;
+	return hole;
+}
+
+int PartSort3(int* a, int left, int right)
+{
+	int prev = left, cur = left + 1;
+	int keyi = left;
+	while (cur <= right)
+	{
+		if (a[cur] < a[keyi])
+		{
+			++prev;
+			Swap(&a[cur], &a[prev]);
+		}
+		// cur始终向前走一步
+		++cur;
+	}
+	Swap(&a[prev], &a[keyi]);
+	return prev;
+}
+
+void QuickSort(int* a, int left, int right)
+{
+	if (left >= right)
+		return;
+	int keyi = PartSort3(a, left, right);
+
+	//区间:[left, keyi-1] keyi [keyi+1, right]
+	QuickSort(a, left, keyi - 1);
+	QuickSort(a, keyi + 1, right);
+
 }
