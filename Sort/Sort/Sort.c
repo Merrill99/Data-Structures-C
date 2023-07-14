@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 #include"Sort.h"
+#include"stcak.h"
 
 void PrintArray(int* a, int n)
 {
@@ -20,7 +21,7 @@ void InsertSort(int* a, int n)
 		int tmp = a[end + 1];
 		while (end >= 0)
 		{
-			if (tmp > a[end])
+			if (tmp < a[end])
 			{
 				a[end + 1] = a[end];
 				--end;
@@ -194,10 +195,36 @@ void HeapSort(int* a, int n)
 	}
 }
 
+// 快速排序的优化，三数取中法
+int GetMidIndex(int* a, int left, int right)
+{
+	int mid = (left + right) / 2;
+	if (a[left] < a[mid])
+	{
+		if (a[mid] < a[right])
+			return mid;
+		else if (a[right] < a[left])
+			return right;
+		else
+			return left;
+	}
+	else //a[left] >= a[mid]
+	{
+		if (a[mid] > a[right])
+			return mid;
+		else if (a[right] > a[left])
+			return right;
+		else
+			return left;
+	}
+}
+
 int PartSort1(int* a, int left, int right)
 {
-	// key的位置为左边起始位置
-	int keyi = left;
+	// 得到keyi的位置与left交换
+	int keyi = GetMidIndex(a, left, right);
+	Swap(&a[keyi], &a[left]);
+	keyi = left;
 	while (left < right)
 	{
 		// 右边先走，找小，遇小停止
@@ -218,12 +245,15 @@ int PartSort1(int* a, int left, int right)
 
 int PartSort2(int* a, int left, int right)
 {
+	int midi = GetMidIndex(a, left, right);
+	Swap(&a[midi], &a[left]);
+	
 	int key = a[left];
 	int hole = left;
 	while (left < right)
 	{
 		// 右边找小
-		while (left < right && a[right] > key)
+		while (left < right && a[right] >= key)
 		{
 			--right;
 		}
@@ -232,7 +262,7 @@ int PartSort2(int* a, int left, int right)
 		// 坑位更新
 		hole = right;
 		// 左边找大
-		while (left < right && a[left] < key)
+		while (left < right && a[left] <= key)
 		{
 			++left;
 		}
@@ -248,7 +278,9 @@ int PartSort2(int* a, int left, int right)
 int PartSort3(int* a, int left, int right)
 {
 	int prev = left, cur = left + 1;
-	int keyi = left;
+	int keyi = GetMidIndex(a, left, right);
+	Swap(&a[keyi], &a[left]);
+	keyi = left;
 	while (cur <= right)
 	{
 		if (a[cur] < a[keyi])
@@ -273,4 +305,39 @@ void QuickSort(int* a, int left, int right)
 	QuickSort(a, left, keyi - 1);
 	QuickSort(a, keyi + 1, right);
 
+}
+
+void QuickSortNonR(int* a, int left, int right)
+{
+	Stack st;
+	STIniti(&st);
+
+	// 压入区间[left,right];
+	STPush(&st, right);
+	STPush(&st, left);
+	while (!IsEmpty(&st))
+	{
+		// 出区间进行排序
+		int begin = STTop(&st);
+		STPop(&st);
+		int end = STTop(&st);
+		STPop(&st);
+
+		int keyi = PartSort3(a, begin, end);
+
+		// [begin,keyi-1] keyi [keyi+1,end];
+		if (begin < keyi - 1)
+		{
+			STPush(&st, keyi - 1);
+			STPush(&st, begin);
+		}
+		if (keyi + 1 < end)
+		{
+			STPush(&st, end);
+			STPush(&st, keyi + 1);
+		}
+		
+	}
+
+	STDestroy(&st);
 }

@@ -18,7 +18,8 @@ void SelectSort(int* a, int n);
 void BubbleSort(int* a, int n);
 // 堆排序
 void HeapSort(int* a, int n);
-// 返回的元素都是下标
+// 快速排序的优化，三数取中法
+int GetMidIndex(int* a, int left, int right);
 // 快速排序hoare版本
 int PartSort1(int* a, int left, int right);
 // 快速排序挖坑法
@@ -26,3 +27,5 @@ int PartSort2(int* a, int left, int right);
 // 快速排序前后指针法
 int PartSort3(int* a, int left, int right);
 void QuickSort(int* a, int left, int right);
+// 快速排序非递归版
+void QuickSortNonR(int* a, int left, int right);
