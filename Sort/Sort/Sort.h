@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<string.h>
 
 // 打印
 void PrintArray(int* a, int n);
@@ -29,3 +30,9 @@ int PartSort3(int* a, int left, int right);
 void QuickSort(int* a, int left, int right);
 // 快速排序非递归版
 void QuickSortNonR(int* a, int left, int right);
+// 归并排序递归实现
+void MergeSort(int* a, int n);
+// 归并排序非递归实现
+void MergeSortNonR(int* a, int n);
+// 计数排序
+void CountSort(int* a, int n);

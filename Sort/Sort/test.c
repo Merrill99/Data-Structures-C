@@ -51,6 +51,17 @@ void QuickSortTest()
 
 }
 
+void MergeSortTest()
+{
+	//int a[] = { 6,1,2,7,3,4,5,8 };
+	int a[] = { 6,1,2,7,9,3,4,5,10,8 };
+
+	int n = sizeof(a) / sizeof(a[0]);
+	PrintArray(a, n);
+	MergeSort(a, n);
+	PrintArray(a, n);
+}
+
 void TestOP()
 {
 	srand(time(0));
@@ -118,7 +129,8 @@ int main()
 	//BubbleSortTest();
 	//HeapSortTest();
 	//QuickSortTest();
-	TestOP();
+	MergeSortTest();
+	//TestOP();
 
 	return 0;
 }
